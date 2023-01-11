@@ -1,14 +1,20 @@
 import * as functions from 'firebase-functions';
 
 import { catchErrors, getUID } from '../helpers';
-import { hobbyProductId, proProductId, stripe } from '../config';
+import {
+  freelanceProductId,
+  growthProductId,
+  startupProductId,
+  stripe,
+} from '../config';
 
 import Stripe from 'stripe';
 import { getCustomerId } from './customers';
 
 interface Subscription {
-  isPro: boolean;
-  isHobby: boolean;
+  isFreelance: boolean;
+  isStartup: boolean;
+  isGrowth: boolean;
   subscriptionActive: boolean;
   subscription: {
     status: string;
@@ -34,11 +40,14 @@ export const subscriptionStatus = (
 ): Subscription => {
   return {
     subscriptionActive: subscription.status === 'active',
-    isPro:
-      subscription.plan?.product === proProductId &&
+    isFreelance:
+      subscription.plan?.product === freelanceProductId &&
       subscription.status === 'active',
-    isHobby:
-      subscription.plan?.product === hobbyProductId &&
+    isStartup:
+      subscription.plan?.product === startupProductId &&
+      subscription.status === 'active',
+    isGrowth:
+      subscription.plan?.product === growthProductId &&
       subscription.status === 'active',
     subscription: {
       cancelAtPeriodEnd: subscription.cancel_at_period_end,

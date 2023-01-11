@@ -4,7 +4,7 @@ import AccountMenu from 'components/dashboard/AccountMenu';
 import BreadCrumbs from 'components/dashboard/BreadCrumbs';
 import PricingCard from 'components/dashboard/PricingCard';
 import StripeBillingButton from 'components/dashboard/BillingButton';
-import { PRO_PLAN, HOBBY_PLAN } from 'config/stripe';
+import { FREELANCE_PLAN, STARTUP_PLAN, GROWTH_PLAN } from 'config/stripe';
 
 const breadCrumbs = {
   back: {
@@ -25,6 +25,17 @@ const Billing: React.FC = () => {
   const auth = useRequireAuth();
   if (!auth.user) return null;
 
+  const currentPlan = () => {
+    if (auth.user.isFreelance) {
+      return 'Freelance';
+    }
+    if (auth.user.isStartup) {
+      return 'Startup';
+    } else {
+      return 'Growth';
+    }
+  };
+
   return (
     <Layout>
       <div className="px-4 py-10 pb-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -43,13 +54,18 @@ const Billing: React.FC = () => {
             <AccountMenu />
           </div>
           <main className="hidden w-2/3 mx-auto sm:block">
-            {!auth.user?.isPro && !auth.user?.isHobby && (
-              <div className="grid grid-cols-2 gap-4">
-                <PricingCard plan={HOBBY_PLAN} />
-                <PricingCard plan={PRO_PLAN} />
-              </div>
-            )}
-            {(auth.user.isPro || auth.user.isHobby) && (
+            {!auth.user?.isFreelance &&
+              !auth.user?.isGrowth &&
+              !auth.user?.isStartup && (
+                <div className="grid grid-cols-2 gap-4">
+                  <PricingCard plan={FREELANCE_PLAN} />
+                  <PricingCard plan={STARTUP_PLAN} />
+                  <PricingCard plan={GROWTH_PLAN} />
+                </div>
+              )}
+            {(auth.user.isFreelance ||
+              auth.user.isGrowth ||
+              auth.user.isStartup) && (
               <div>
                 <div className="p-4 bg-green-100 rounded-md">
                   <div className="flex">
@@ -69,9 +85,7 @@ const Billing: React.FC = () => {
                     <div className="ml-3">
                       <h3 className="text-sm font-medium leading-5 text-green-800">
                         Your
-                        <span className="font-bold">
-                          {auth.user.isPro ? ' Pro ' : ' Hobby '}
-                        </span>
+                        <span className="font-bold">{currentPlan()}</span>
                         plan is currently active
                       </h3>
                       <div className="mt-2 text-sm leading-5 text-green-700">

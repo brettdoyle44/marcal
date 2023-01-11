@@ -11,7 +11,8 @@ export const getPlan = async (user: User): Promise<string> => {
     teamOwner = await getUser(user.teamId);
   }
 
-  if (teamOwner.isPro) return 'Pro';
-  if (teamOwner.isHobby) return 'Hobby';
+  if (teamOwner.isFreelance) return 'Freelance';
+  if (teamOwner.isStartup) return 'Startup';
+  if (teamOwner.isGrowth) return 'Growth';
   return 'Free';
 };

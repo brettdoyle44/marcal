@@ -25,10 +25,12 @@ const stripeWebhookSecret =
   functions.config().stripe?.webhook_secret ?? ('Todo: configure' as any);
 
 // Define Stripe product ids. Used to in subscriptionStatus helper function to set isPro or isHobby on user document
-const hobbyProductId =
-  functions.config().stripe?.hobby_product_id ?? ('Todo: configure' as any);
-const proProductId =
-  functions.config().stripe?.pro_product_id ?? ('Todo: configure' as any);
+const freelanceProductId =
+  functions.config().stripe?.freelance_product_id ?? ('Todo: configure' as any);
+const startupProductId =
+  functions.config().stripe?.startup_product_id ?? ('Todo: configure' as any);
+const growthProductId =
+  functions.config().stripe?.growth_product_id ?? ('Todo: configure' as any);
 
 const stripe =
   new Stripe(stripeSecretKey, { apiVersion: '2020-08-27' }) ??
@@ -52,8 +54,9 @@ export {
   stripePublishableKey,
   stripeWebhookSecret,
   stripe,
-  hobbyProductId,
-  proProductId,
+  freelanceProductId,
+  startupProductId,
+  growthProductId,
   postMarkApiKey,
   welcomeTemplateId,
   teamInviteTemplateId,

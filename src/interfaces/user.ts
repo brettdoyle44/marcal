@@ -7,8 +7,9 @@ export interface User {
   teamId: string;
   isAdmin?: boolean;
   isTeamOwner?: boolean;
-  isPro?: boolean;
-  isHobby?: boolean;
+  isFreelance?: boolean;
+  isStartup?: boolean;
+  isGrowth?: boolean;
   createdAt?: number;
   avatarUrl?: string;
   emailVerified?: boolean;
